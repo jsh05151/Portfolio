@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지석형 - From Stage to Space</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000000;
+            color: #ffffff;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        #stardustCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 1s ease;
+        }
+        
+        .intro-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .main-content {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .main-content.fade-in {
+            opacity: 1;
+        }
+        
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .accent-highlight {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        
+        .orbit-icon {
+            width: 120px;
+            height: 120px;
+            margin: 2rem auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        nav a {
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #60a5fa;
+        }
+        
+        .experience-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .experience-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .experience-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Stardust Canvas Background -->
+    <canvas id="stardustCanvas"></canvas>
+    
+    <!-- Intro Overlay -->
+    <div id="introOverlay" class="intro-overlay">
+        <h1 class="text-6xl md:text-8xl font-bold text-white tracking-tight">From Stage to Space</h1>
+    </div>
+    
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content content-wrapper">
+        <!-- Header -->
+        <header class="glassmorphism fixed top-0 left-0 right-0 z-50">
+            <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+                <div class="text-2xl font-bold">지석형</div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#hero" class="text-gray-300 hover:text-white">Home</a>
+                    <a href="#philosophy" class="text-gray-300 hover:text-white">Philosophy</a>
+                    <a href="#vision" class="text-gray-300 hover:text-white">Vision</a>
+                    <a href="#experience" class="text-gray-300 hover:text-white">Experience</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white">Contact</a>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20">
+            <div class="text-center max-w-4xl">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">Logic & Emotion</h1>
+                <p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
+                    두 개의 심장으로 미래를 연기하고, 코드로 우주를 그립니다.
+                </p>
+                <p class="text-lg md:text-xl text-gray-400 mt-4">
+                    Acting future with two hearts, drawing universe with code
+                </p>
+            </div>
+        </section>
+        
+        <!-- Philosophy Section -->
+        <section id="philosophy" class="py-20 px-6">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="section-title text-center">Philosophy</h2>
+                <div class="text-lg text-gray-300 leading-relaxed space-y-4 text-center">
+                    <p class="whitespace-nowrap">
+                        배우로서 저는 무대 위에서 인간의 마음을 연구합니다. 프로그래머로서는 코드 속에서 우주의 법칙을 탐구합니다.
+                    </p>
+                    <p class="text-gray-400 italic">
+                        Understanding human hearts on stage, exploring universal laws in code.
+                    </p>
+                    <p class="text-2xl font-semibold mt-12 text-blue-400">
+                        "공감하는 기술, 숨 쉬는 코드."
+                    </p>
+                    <p class="text-gray-400 italic">
+                        Empathic Tech, Breathing Code
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Vision Section -->
+        <section id="vision" class="py-20 px-6 bg-gradient-to-b from-transparent to-black/30">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="section-title text-center">Project: Orbit</h2>
+                
+                <!-- Orbit Icon -->
+                <div class="orbit-icon">
+                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                        <ellipse cx="60" cy="60" rx="50" ry="20" fill="none" stroke="rgba(96,165,250,0.5)" stroke-width="2"/>
+                        <circle cx="60" cy="60" r="8" fill="#60a5fa"/>
+                        <circle cx="110" cy="60" r="4" fill="white">
+                            <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 60 60"
+                                to="360 60 60"
+                                dur="4s"
+                                repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                </div>
+                
+                <div class="text-lg text-gray-300 leading-relaxed space-y-6 text-center">
+                    <p>
+                        프로그래머로서 우주공학자, 과학자가 되어 대한민국의 우주선에 제 코드를 탑재하는 것이 저의 꿈입니다.
+                    </p>
+                    <p class="text-gray-400 italic">
+                        Dreaming of putting my code on a Korean spaceship as a space engineer and scientist
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Experience & Skills Section -->
+        <section id="experience" class="py-20 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="section-title text-center mb-16">Experience & Skills</h2>
+                
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Programmer -->
+                    <div class="glassmorphism p-8 rounded-lg">
+                        <h3 class="text-3xl font-bold mb-6 flex items-center">
+                            <i data-lucide="code" class="mr-3"></i>
+                            Programmer
+                        </h3>
+                        
+                        <!-- Tech Badges -->
+                        <div class="mb-8">
+                            <span class="badge">Unity</span>
+                            <span class="badge">Python</span>
+                            <span class="badge">C#</span>
+                            <span class="badge">C</span>
+                            <span class="badge">C++</span>
+                        </div>
+                        
+                        <!-- Experience List -->
+                        <ul class="experience-list text-gray-300">
+                            <li>ITQ 자격증 취득 (HWP)</li>
+                            <li>전라남도 인재평생교육진흥원 글로벌마이스터 현장연수<br>&lt;산업진흥형 소프트웨어&gt; 분야 인재 선발</li>
+                            <li>FLL KOREA 전라남도 예선 &lt;모토로직&gt; 팀장</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Actor -->
+                    <div class="glassmorphism p-8 rounded-lg">
+                        <h3 class="text-3xl font-bold mb-6 flex items-center">
+                            <i data-lucide="theater" class="mr-3"></i>
+                            Actor
+                        </h3>
+                        
+                        <div class="mb-8 text-gray-400">
+                            <p class="italic">Performing with heart and soul</p>
+                        </div>
+                        
+                        <!-- Experience List -->
+                        <ul class="experience-list text-gray-300">
+                            <li>독립운동 100주년 시가행진</li>
+                            <li>순천시청소년수련관 청소년 연극교실 수료</li>
+                            <li>2022 순천청소년 연극제 &lt;시월의 그날&gt;</li>
+                            <li><span class="accent-highlight">2024 순천청소년 연극제 &lt;만선&gt; 우수연기상 수상</span></li>
+                            <li>극단 지피지기 8회 정기공연 &lt;만선&gt;</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer id="contact" class="py-20 px-6 border-t border-gray-800">
+            <div class="container mx-auto max-w-4xl text-center">
+                <h2 class="text-5xl md:text-7xl font-bold mb-12 tracking-tight">From Stage to Space</h2>
+                
+                <div class="space-y-4 text-gray-300">
+                    <div class="flex items-center justify-center space-x-3">
+                        <i data-lucide="mail"></i>
+                        <a href="mailto:contact@example.com" class="hover:text-blue-400 transition">jiseok@example.com</a>
+                    </div>
+                    <div class="flex items-center justify-center space-x-3">
+                        <i data-lucide="instagram"></i>
+                        <a href="https://instagram.com" target="_blank" class="hover:text-blue-400 transition">@jiseok_hyeong</a>
+                    </div>
+                    <div class="flex items-center justify-center space-x-3">
+                        <i data-lucide="youtube"></i>
+                        <a href="https://youtube.com" target="_blank" class="hover:text-blue-400 transition">Ji Seok Hyeong</a>
+                    </div>
+                </div>
+                
+                <p class="mt-12 text-gray-500 text-sm">© 2025 Ji Seok Hyeong. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        const introOverlay = document.getElementById('introOverlay');
+        const mainContent = document.getElementById('mainContent');
+        
+        // Auto-start after 2 seconds or click immediately
+        let introClicked = false;
+        
+        function hideIntro() {
+            if (!introClicked) {
+                introClicked = true;
+                introOverlay.classList.add('fade-out');
+                setTimeout(() => {
+                    introOverlay.style.display = 'none';
+                    mainContent.classList.add('fade-in');
+                }, 1000);
+            }
+        }
+        
+        // Click to skip
+        introOverlay.addEventListener('click', hideIntro);
+        
+        // Auto-skip after 3 seconds
+        setTimeout(hideIntro, 3000);
+        
+        // Stardust Canvas Effect
+        const canvas = document.getElementById('stardustCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 150;
+        const mouse = { x: null, y: null, radius: 100 };
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Mouse interaction
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < mouse.radius && mouse.x !== null) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    const angle = Math.atan2(dy, dx);
+                    this.x -= Math.cos(angle) * force * 2;
+                    this.y -= Math.sin(angle) * force * 2;
+                }
+                
+                // Wrap around screen
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function init() {
+            particles.length = 0;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        init();
+        animate();
+        
+        // Mouse tracking
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+        
+        // Smooth scroll for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
