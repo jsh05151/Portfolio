@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>지석형 - From Stage to Space</title>
+    <title>지석형 (JI SEOK HYEONG) - Portfolio</title>
+    <meta name="description" content="Actor & Programmer Portfolio of Ji Seok Hyeong">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,19 +12,30 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Google Fonts (Noto Sans KR 하나로 통일) -->
+    <!-- Google Fonts: Noto Sans KR (산세리프 전용) -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        // 모든 텍스트를 Noto Sans KR로 설정
                         sans: ['Noto Sans KR', 'sans-serif'],
                     },
                     colors: {
                         'space-black': '#050505',
+                        'accent': '#60a5fa', // Blue-400 for highlights
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
@@ -38,15 +50,15 @@
             background: #050505;
             color: #ffffff;
             font-family: 'Noto Sans KR', sans-serif;
-            overflow-x: hidden; /* 가로 스크롤 방지 */
+            overflow-x: hidden;
         }
         
-        /* 스크롤바 커스텀 */
+        /* 커스텀 스크롤바 */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 
-        /* 배경 캔버스 */
+        /* 배경 캔버스 (별 가루 효과) */
         #stardustCanvas {
             position: fixed;
             top: 0; left: 0;
@@ -55,6 +67,7 @@
             pointer-events: none;
         }
         
+        /* 콘텐츠 래퍼 */
         .content-wrapper { position: relative; z-index: 1; }
         
         /* 인트로 오버레이 */
@@ -79,70 +92,80 @@
         .main-content { opacity: 0; transition: opacity 1.5s ease; }
         .main-content.fade-in { opacity: 1; }
         
-        /* 글래스모피즘 */
+        /* 글래스모피즘 (헤더, 카드) */
         .glassmorphism {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .card-glass {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
-        .card-glass:hover { transform: translateY(-5px); }
+        .card-glass:hover { 
+            transform: translateY(-5px); 
+            border-color: rgba(255, 255, 255, 0.2);
+        }
         
-        /* 뱃지 스타일 */
+        /* 스킬 뱃지 */
         .badge {
             display: inline-block;
-            padding: 0.4rem 0.8rem;
-            background: rgba(255, 255, 255, 0.08);
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 9999px;
             font-size: 0.75rem;
+            font-weight: 500;
             margin: 0.2rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.2s;
+            color: #d1d5db;
         }
-        .badge:hover { background: rgba(255, 255, 255, 0.2); }
-        
-        .accent-highlight { color: #60a5fa; font-weight: 700; }
-        
-        /* 궤도 애니메이션 */
-        .orbit-icon { width: 100px; height: 100px; margin: 2rem auto; }
+        .badge:hover { 
+            background: rgba(255, 255, 255, 0.15); 
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
         
         /* 리스트 스타일 */
         .experience-list li {
             padding: 0.8rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-weight: 300;
+            line-height: 1.6;
         }
         .experience-list li:last-child { border-bottom: none; }
 
-        /* 모바일 메뉴 오버레이 */
+        /* 모바일 메뉴 애니메이션 */
         #mobileMenu {
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateX(100%);
         }
-        #mobileMenu.open {
-            transform: translateX(0);
+        #mobileMenu.open { transform: translateX(0); }
+        
+        /* 궤도 아이콘 컨테이너 */
+        .orbit-container {
+            width: 120px; height: 120px; margin: 0 auto 2rem;
+            position: relative;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. 배경 효과 (Stardust) -->
+    <!-- 1. 배경 효과 (Canvas Stardust) -->
     <canvas id="stardustCanvas"></canvas>
     
-    <!-- 2. 인트로 화면 (PC/모바일 공통) -->
+    <!-- 2. 인트로 (Splash Screen) -->
     <div id="introOverlay" class="intro-overlay text-center px-4">
-        <!-- font-serif 제거, font-black으로 변경하여 심플하고 강렬하게 -->
-        <h1 class="text-4xl md:text-7xl font-black text-white tracking-tighter animate-pulse">
+        <h1 class="text-4xl md:text-7xl font-black text-white tracking-tighter animate-pulse-slow">
             From Stage to Space.
         </h1>
-        <p class="mt-6 text-xs text-gray-500 uppercase tracking-[0.3em] animate-bounce">Tap to Enter</p>
+        <p class="mt-8 text-xs text-gray-500 uppercase tracking-[0.3em] animate-bounce font-light">
+            Press Any Key or Tap to Enter
+        </p>
     </div>
     
     <!-- 3. 메인 콘텐츠 -->
@@ -152,10 +175,10 @@
         <header class="glassmorphism fixed top-0 left-0 right-0 z-50 transition-all duration-300">
             <div class="container mx-auto px-6 h-16 flex items-center justify-between">
                 <!-- 로고 -->
-                <a href="#" class="text-xl font-black tracking-tighter z-50 relative">지석형</a>
+                <a href="#" class="text-xl font-black tracking-tighter z-50 relative hover:text-gray-300 transition-colors">지석형</a>
                 
-                <!-- PC 네비게이션 (md 이상에서만 보임) -->
-                <nav class="hidden md:flex space-x-8 text-sm font-light text-gray-300">
+                <!-- PC 네비게이션 -->
+                <nav class="hidden md:flex space-x-8 text-sm font-light text-gray-400">
                     <a href="#hero" class="hover:text-white transition-colors">Home</a>
                     <a href="#philosophy" class="hover:text-white transition-colors">Philosophy</a>
                     <a href="#vision" class="hover:text-white transition-colors">Vision</a>
@@ -163,64 +186,90 @@
                     <a href="#contact" class="hover:text-white transition-colors">Contact</a>
                 </nav>
 
-                <!-- 모바일 메뉴 버튼 (md 미만에서만 보임) -->
-                <button id="mobileMenuBtn" class="md:hidden text-white z-50 focus:outline-none">
+                <!-- 모바일 메뉴 버튼 -->
+                <button id="mobileMenuBtn" class="md:hidden text-white z-50 focus:outline-none p-2">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </header>
 
-        <!-- 모바일 전체화면 메뉴 오버레이 -->
+        <!-- 모바일 전체화면 메뉴 -->
         <div id="mobileMenu" class="fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center space-y-8 backdrop-blur-xl md:hidden">
-            <a href="#hero" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Home</a>
-            <a href="#philosophy" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Philosophy</a>
-            <a href="#vision" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Vision</a>
-            <a href="#experience" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Experience</a>
-            <a href="#contact" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Contact</a>
+            <a href="#hero" class="mobile-link text-3xl font-bold text-gray-400 hover:text-white transition-colors">Home</a>
+            <a href="#philosophy" class="mobile-link text-3xl font-bold text-gray-400 hover:text-white transition-colors">Philosophy</a>
+            <a href="#vision" class="mobile-link text-3xl font-bold text-gray-400 hover:text-white transition-colors">Vision</a>
+            <a href="#experience" class="mobile-link text-3xl font-bold text-gray-400 hover:text-white transition-colors">Experience</a>
+            <a href="#contact" class="mobile-link text-3xl font-bold text-gray-400 hover:text-white transition-colors">Contact</a>
         </div>
         
         <!-- Hero Section -->
-        <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20 relative">
-            <!-- 모바일용 배경 빛 효과 -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-900/20 rounded-full blur-[80px]"></div>
+        <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-24 pb-12 relative overflow-hidden">
+            <!-- 배경 빛 효과 (은은한 오로라) -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px] pointer-events-none"></div>
             
-            <div class="text-center max-w-4xl relative z-10">
-                <p class="text-xs md:text-sm text-gray-500 tracking-[0.3em] mb-4 uppercase">Actor & Programmer</p>
-                <!-- 명조체(italic, serif) 제거 -->
-                <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tight leading-tight">
-                    Logic <span class="text-gray-500 font-light">&</span> Emotion
-                </h1>
-                <p class="text-lg md:text-2xl text-gray-300 font-light leading-relaxed break-keep">
-                    두 개의 심장으로 미래를 연기하고,<br class="hidden md:block"> 코드로 우주를 그립니다.
-                </p>
-                <p class="text-sm md:text-base text-gray-500 mt-6 font-light">
-                    Acting future with two hearts, drawing universe with code
-                </p>
-                <div class="mt-12 animate-bounce text-gray-600">
-                    <i data-lucide="chevron-down" class="w-6 h-6 mx-auto"></i>
+            <div class="text-center max-w-5xl relative z-10 w-full">
+                <!-- 이름 (가장 크게 강조) -->
+                <div class="mb-4 animate-fade-in-up" style="animation-delay: 0.1s;">
+                    <h1 class="text-5xl sm:text-7xl md:text-9xl font-black text-white tracking-tighter leading-none">
+                        JI SEOK<br class="md:hidden"> HYEONG
+                    </h1>
+                </div>
+                
+                <!-- 직업 (소제목) - 전체 중앙 정렬로 변경 (가장 안정적) -->
+                <div class="animate-fade-in-up" style="animation-delay: 0.3s;">
+                    <p class="text-xs md:text-sm text-gray-500 tracking-[0.4em] mb-12 uppercase font-medium">
+                        Actor <span class="mx-2">&</span> Programmer
+                    </p>
+                </div>
+
+                <!-- 메인 슬로건 - 전체 중앙 정렬로 변경 (가장 안정적) -->
+                <div class="animate-fade-in-up" style="animation-delay: 0.5s;">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-10 tracking-tight text-gray-200">
+                        Logic <span class="text-gray-600 font-light px-2">&</span> Emotion
+                    </h2>
+                </div>
+
+                <!-- 자기소개 (Short Bio) -->
+                <div class="space-y-4 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.7s;">
+                    <p class="text-base md:text-xl text-gray-300 font-light leading-relaxed break-keep">
+                        <strong class="text-white font-bold">지석형</strong>
+                    </p>
+                    <p class="text-sm md:text-lg text-gray-400 font-light leading-relaxed break-keep">
+                        무대 위에서는 사람의 마음을 움직이고, 모니터 앞에서는 세상의 문제를 해결합니다.
+                        <br class="hidden md:block">
+                        감성과 논리, 두 가지 언어로 저만의 우주를 그려나갑니다.
+                    </p>
+                </div>
+
+                <div class="mt-20 animate-bounce text-gray-600 opacity-50">
+                    <i data-lucide="chevron-down" class="w-8 h-8 mx-auto"></i>
                 </div>
             </div>
         </section>
         
         <!-- Philosophy Section -->
-        <section id="philosophy" class="py-24 px-6 border-t border-white/5">
+        <section id="philosophy" class="py-32 px-6 border-t border-white/5">
             <div class="container mx-auto max-w-3xl text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-12 tracking-tight">Philosophy</h2>
-                <div class="space-y-6 text-gray-300 leading-relaxed font-light text-base md:text-lg break-keep">
-                    <div class="relative py-8">
-                        <i data-lucide="quote" class="w-8 h-8 text-gray-700 mx-auto mb-6 opacity-50"></i>
+                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-16">Philosophy</h2>
+                
+                <div class="space-y-12 text-gray-300 leading-relaxed font-light text-lg md:text-2xl break-keep">
+                    <div class="relative">
+                        <i data-lucide="quote" class="w-10 h-10 text-gray-800 mx-auto mb-8"></i>
+                        <p class="mb-4">
+                            배우로서 저는 무대 위에서 <br class="md:hidden"><span class="text-white font-bold">인간의 마음</span>을 연구합니다.
+                        </p>
                         <p>
-                            배우로서 저는 무대 위에서 <br class="md:hidden">인간의 <strong class="text-white font-bold">마음</strong>을 연구합니다.<br>
-                            프로그래머로서는 코드 속에서 <br class="md:hidden">우주의 <strong class="text-white font-bold">법칙</strong>을 탐구합니다.
+                            프로그래머로서는 코드 속에서 <br class="md:hidden"><span class="text-white font-bold">우주의 법칙</span>을 탐구합니다.
                         </p>
                     </div>
                     
-                    <div class="py-8">
-                        <!-- 명조체 제거, 굵은 고딕으로 변경 -->
-                        <p class="text-2xl md:text-3xl font-bold text-blue-200/80 mb-2">
+                    <div class="pt-8 border-t border-white/5 w-1/2 mx-auto"></div>
+
+                    <div>
+                        <p class="text-2xl md:text-4xl font-bold text-white mb-3">
                             "공감하는 기술, 숨 쉬는 코드."
                         </p>
-                        <p class="text-sm text-gray-500 tracking-wider">
+                        <p class="text-sm text-gray-600 tracking-wider uppercase">
                             Empathic Tech, Breathing Code
                         </p>
                     </div>
@@ -229,123 +278,150 @@
         </section>
         
         <!-- Vision Section -->
-        <section id="vision" class="py-24 px-6 bg-gradient-to-b from-transparent to-blue-900/10">
+        <section id="vision" class="py-32 px-6 bg-gradient-to-b from-transparent to-blue-900/5">
             <div class="container mx-auto max-w-4xl text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-8">Project: Orbit</h2>
+                <h2 class="text-3xl md:text-5xl font-bold mb-16">Project: Orbit</h2>
                 
-                <!-- Orbit Icon (SVG Animation) -->
-                <div class="orbit-icon">
-                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                        <ellipse cx="60" cy="60" rx="50" ry="20" fill="none" stroke="rgba(96,165,250,0.4)" stroke-width="1.5" transform="rotate(-15 60 60)"/>
-                        <circle cx="60" cy="60" r="6" fill="#60a5fa" class="animate-pulse"/>
-                        <!-- Orbiting dot -->
+                <!-- 궤도 아이콘 애니메이션 (SVG) -->
+                <div class="orbit-container">
+                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                        <!-- 궤도 -->
+                        <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                        <ellipse cx="60" cy="60" rx="55" ry="25" fill="none" stroke="rgba(96,165,250,0.3)" stroke-width="1.5" transform="rotate(-30 60 60)"/>
+                        
+                        <!-- 중심 행성 -->
+                        <circle cx="60" cy="60" r="8" fill="#1e3a8a" stroke="#60a5fa" stroke-width="2" class="animate-pulse"/>
+                        
+                        <!-- 궤도 도는 위성 -->
                         <circle r="3" fill="white">
                             <animateMotion 
-                                dur="4s" 
+                                dur="6s" 
                                 repeatCount="indefinite"
-                                path="M60,60 m-50,0 a50,20 0 1,0 100,0 a50,20 0 1,0 -100,0"
-                                transform="rotate(-15 60 60)" />
+                                path="M60,60 m-55,0 a55,25 0 1,0 110,0 a55,25 0 1,0 -110,0"
+                                transform="rotate(-30 60 60)" />
                         </circle>
                     </svg>
                 </div>
                 
-                <div class="text-base md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto space-y-4 break-keep">
+                <div class="text-lg md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto space-y-6 break-keep">
                     <p>
-                        프로그래머로서 우주공학자가 되어<br>
-                        <span class="text-white font-bold border-b border-blue-500/50 pb-1">대한민국의 우주선에 제 코드를 탑재하는 것</span>이<br>
+                        프로그래머로서 우주공학자, 과학자가 되어<br>
+                        <span class="text-white font-bold">대한민국의 우주선에 제 코드를 탑재하는 것</span>이<br>
                         저의 꿈입니다.
                     </p>
-                    <p class="text-sm text-gray-500 mt-4 font-light">
-                        Dreaming of putting my code on a Korean spaceship
+                    <p class="text-sm md:text-base text-gray-500 mt-6 font-light">
+                        저의 코드가 대기권을 돌파하여 별들 사이를 여행하는 그날까지,<br>
+                        저는 멈추지 않을 것입니다.
                     </p>
                 </div>
             </div>
         </section>
         
         <!-- Experience & Skills Section -->
-        <section id="experience" class="py-24 px-6">
+        <section id="experience" class="py-32 px-6">
             <div class="container mx-auto max-w-6xl">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">Experience & Skills</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-20 tracking-tight">Experience & Skills</h2>
                 
-                <!-- Grid: Mobile(1열) -> PC(2열) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
                     
                     <!-- Programmer Track -->
-                    <div class="card-glass p-6 md:p-8 rounded-2xl">
-                        <div class="flex items-center mb-6">
-                            <div class="p-3 bg-blue-500/10 rounded-full mr-4">
-                                <i data-lucide="code" class="text-blue-400"></i>
+                    <div class="card-glass p-8 md:p-10 rounded-3xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i data-lucide="code" class="w-32 h-32 text-blue-400"></i>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex items-center mb-8">
+                                <span class="text-blue-400 mr-3">
+                                    <i data-lucide="terminal" class="w-6 h-6"></i>
+                                </span>
+                                <h3 class="text-2xl md:text-3xl font-bold">Programmer</h3>
                             </div>
-                            <h3 class="text-2xl font-bold">Programmer</h3>
+                            
+                            <!-- Tech Badges -->
+                            <div class="mb-10 flex flex-wrap gap-2">
+                                <span class="badge">Unity</span>
+                                <span class="badge">Python</span>
+                                <span class="badge">C#</span>
+                                <span class="badge">C</span>
+                                <span class="badge">C++</span>
+                                <span class="badge">Premiere Pro</span>
+                                <span class="badge">Lightroom</span>
+                            </div>
+                            
+                            <ul class="experience-list text-sm md:text-base text-gray-300">
+                                <li>
+                                    <span class="block text-white font-medium mb-1">ITQ 자격증 취득 (HWP)</span>
+                                </li>
+                                <li>
+                                    <span class="block text-white font-medium mb-1">전라남도 인재평생교육진흥원 글로벌마이스터 현장연수</span>
+                                    <span class="text-sm text-gray-500 block">&lt;산업진흥형 소프트웨어&gt; 분야 인재 선발</span>
+                                </li>
+                                <li>
+                                    <span class="block text-white font-medium mb-1">FLL KOREA 전라남도 예선</span>
+                                    <span class="text-sm text-gray-500 block">&lt;모토로직&gt; 팀장</span>
+                                </li>
+                            </ul>
                         </div>
-                        
-                        <!-- Tech Badges -->
-                        <div class="mb-8 flex flex-wrap">
-                            <span class="badge">Unity</span>
-                            <span class="badge">Python</span>
-                            <span class="badge">C#</span>
-                            <span class="badge">C</span>
-                            <span class="badge">C++</span>
-                            <span class="badge">Lightroom</span>
-                        </div>
-                        
-                        <ul class="experience-list text-sm md:text-base text-gray-300">
-                            <li>ITQ 자격증 취득 (HWP)</li>
-                            <li>전라남도 인재평생교육진흥원 글로벌마이스터 현장연수<br><span class="text-gray-500 text-xs">&lt;산업진흥형 소프트웨어&gt; 분야 인재 선발</span></li>
-                            <li>FLL KOREA 전라남도 예선 &lt;오토로직&gt; 팀장</li>
-                        </ul>
                     </div>
                     
                     <!-- Actor Track -->
-                    <div class="card-glass p-6 md:p-8 rounded-2xl">
-                        <div class="flex items-center mb-6">
-                            <div class="p-3 bg-purple-500/10 rounded-full mr-4">
-                                <i data-lucide="theater" class="text-purple-400"></i>
+                    <div class="card-glass p-8 md:p-10 rounded-3xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i data-lucide="drama" class="w-32 h-32 text-purple-400"></i>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex items-center mb-8">
+                                <span class="text-purple-400 mr-3">
+                                    <i data-lucide="mic-2" class="w-6 h-6"></i>
+                                </span>
+                                <h3 class="text-2xl md:text-3xl font-bold">Actor</h3>
                             </div>
-                            <h3 class="text-2xl font-bold">Actor</h3>
+                            
+                            <div class="mb-10 text-gray-400 text-sm font-light italic">
+                                "Performing with heart and soul on the stage."
+                            </div>
+                            
+                            <ul class="experience-list text-sm md:text-base text-gray-300">
+                                <li>독립운동 100주년 시가행진</li>
+                                <li>순천시청소년수련관 청소년 연극교실 수료</li>
+                                <li>2022 순천청소년 연극제 &lt;시월의 그날&gt;</li>
+                                <li class="bg-blue-900/20 -mx-2 px-2 rounded">
+                                    <span class="text-accent font-bold">2024 순천청소년 연극제 &lt;만선&gt; 우수연기상 수상</span>
+                                </li>
+                                <li>극단 지피지기 8회 정기공연 &lt;만선&gt;</li>
+                            </ul>
                         </div>
-                        
-                        <div class="mb-8 text-gray-400 text-sm font-light">
-                            Performing with heart and soul
-                        </div>
-                        
-                        <ul class="experience-list text-sm md:text-base text-gray-300">
-                            <li>독립운동 100주년 시가행진</li>
-                            <li>순천시청소년수련관 청소년 연극교실 수료</li>
-                            <li>2022 순천청소년 연극제 &lt;시월의 그날&gt;</li>
-                            <li><span class="accent-highlight">2024 순천청소년 연극제 &lt;만선&gt; 우수연기상 수상</span></li>
-                            <li>극단 지피지기 8회 정기공연 &lt;만선&gt;</li>
-                        </ul>
                     </div>
                 </div>
             </div>
         </section>
         
         <!-- Footer -->
-        <footer id="contact" class="py-24 px-6 border-t border-gray-900 bg-black">
+        <footer id="contact" class="py-24 px-6 border-t border-gray-900 bg-[#020202]">
             <div class="container mx-auto max-w-4xl text-center">
-                <!-- 수미상관 슬로건 (명조체 제거) -->
-                <h2 class="text-4xl md:text-6xl font-black mb-12 tracking-tight text-white/90">
+                <!-- 수미상관 슬로건 -->
+                <h2 class="text-4xl md:text-7xl font-black mb-16 tracking-tighter text-white/90">
                     From Stage to Space.
                 </h2>
                 
-                <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-12 text-gray-400">
-                    <a href="mailto:wlroehdejdjfl@naver.com" class="flex items-center hover:text-white transition group">
-                        <i data-lucide="mail" class="w-5 h-5 mr-2 group-hover:text-blue-400"></i>
-                        <span>wlroehdejdjfl@naver.com</span>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-gray-400">
+                    <a href="mailto:wlroehdejdjfl@naver.com" class="flex items-center hover:text-white transition group py-2">
+                        <i data-lucide="mail" class="w-5 h-5 mr-3 group-hover:text-accent transition-colors"></i>
+                        <span class="border-b border-transparent group-hover:border-white transition-colors">wlroehdejdjfl@naver.com</span>
                     </a>
-                    <a href="https://instagram.com/xen_.oll" target="_blank" class="flex items-center hover:text-white transition group">
-                        <i data-lucide="instagram" class="w-5 h-5 mr-2 group-hover:text-pink-400"></i>
-                        <span>@xen_.oll</span>
+                    <a href="https://www.instagram.com/jxod_.x/" target="_blank" class="flex items-center hover:text-white transition group py-2">
+                        <i data-lucide="instagram" class="w-5 h-5 mr-3 group-hover:text-pink-500 transition-colors"></i>
+                        <span class="border-b border-transparent group-hover:border-white transition-colors">jxod_.x</span>
                     </a>
-                    <a href="https://youtube.com/@jsh0515" target="_blank" class="flex items-center hover:text-white transition group">
-                        <i data-lucide="youtube" class="w-5 h-5 mr-2 group-hover:text-red-500"></i>
-                        <span>jsh0515</span>
+                    <a href="https://youtube.com/@jsh0515" target="_blank" class="flex items-center hover:text-white transition group py-2">
+                        <i data-lucide="youtube" class="w-5 h-5 mr-3 group-hover:text-red-500 transition-colors"></i>
+                        <span class="border-b border-transparent group-hover:border-white transition-colors">jsh0515</span>
                     </a>
                 </div>
                 
-                <p class="mt-16 text-gray-700 text-xs">© 2025 Ji Seok Hyeong. All rights reserved.</p>
+                <p class="mt-20 text-gray-800 text-xs font-light">© 2025 Ji Seok Hyeong. All rights reserved.</p>
             </div>
         </footer>
     </div>
@@ -354,7 +430,7 @@
         // Lucide 아이콘 초기화
         lucide.createIcons();
         
-        // --- 인트로 로직 ---
+        // --- 1. 인트로 로직 (클릭/터치/키보드) ---
         const introOverlay = document.getElementById('introOverlay');
         const mainContent = document.getElementById('mainContent');
         let introClicked = false;
@@ -371,60 +447,56 @@
             }
         }
         
-        // 클릭/터치 시 인트로 종료
+        // 이벤트 리스너 등록
         introOverlay.addEventListener('click', hideIntro);
-        introOverlay.addEventListener('touchstart', hideIntro);
+        introOverlay.addEventListener('touchstart', hideIntro, {passive: true});
+        window.addEventListener('keydown', hideIntro); // 아무 키나 눌러도 스킵
         
-        // 키보드 입력 시 인트로 종료 (추가됨)
-        window.addEventListener('keydown', hideIntro);
-        
-        // 3.5초 뒤 자동 종료 (사용자가 클릭 안 했을 경우)
-        setTimeout(hideIntro, 3500);
+        // 4초 뒤 자동 종료 (사용자 입력 없을 시)
+        setTimeout(hideIntro, 4000);
         
         
-        // --- 모바일 메뉴 로직 ---
+        // --- 2. 모바일 메뉴 로직 ---
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
         let isMenuOpen = false;
 
-        mobileMenuBtn.addEventListener('click', () => {
+        function toggleMenu() {
             isMenuOpen = !isMenuOpen;
             if(isMenuOpen) {
                 mobileMenu.classList.remove('hidden');
-                // 약간의 딜레이를 주어 애니메이션 효과 적용
-                setTimeout(() => mobileMenu.classList.add('open'), 10);
-                // 아이콘 변경 (X 모양)
-                mobileMenuBtn.innerHTML = '<i data-lucide="x"></i>';
+                // 약간의 딜레이를 주어 transition 적용
+                requestAnimationFrame(() => {
+                    mobileMenu.classList.add('open');
+                });
+                mobileMenuBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
             } else {
                 mobileMenu.classList.remove('open');
                 setTimeout(() => mobileMenu.classList.add('hidden'), 300);
-                // 아이콘 변경 (햄버거 모양)
-                mobileMenuBtn.innerHTML = '<i data-lucide="menu"></i>';
+                mobileMenuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
             }
             lucide.createIcons();
-        });
+        }
 
-        // 모바일 메뉴 링크 클릭 시 메뉴 닫기
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+
+        // 링크 클릭 시 메뉴 닫기
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
-                isMenuOpen = false;
-                mobileMenu.classList.remove('open');
-                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
-                mobileMenuBtn.innerHTML = '<i data-lucide="menu"></i>';
-                lucide.createIcons();
+                if(isMenuOpen) toggleMenu();
             });
         });
 
         
-        // --- 별 가루(Stardust) 배경 효과 ---
+        // --- 3. 별 가루(Stardust) 배경 캔버스 ---
         const canvas = document.getElementById('stardustCanvas');
         const ctx = canvas.getContext('2d');
         
         let width, height;
         let particles = [];
-        // 모바일에서는 입자 수를 줄여 성능 최적화
-        const particleCount = window.innerWidth < 768 ? 60 : 120; 
+        // 모바일 최적화: 입자 수 조절
+        const particleCount = window.innerWidth < 768 ? 50 : 100; 
         
         function resize() {
             width = canvas.width = window.innerWidth;
@@ -439,17 +511,17 @@
             reset() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.2;
-                this.vy = (Math.random() - 0.5) * 0.2;
+                this.vx = (Math.random() - 0.5) * 0.15; // 속도 매우 느리게
+                this.vy = (Math.random() - 0.5) * 0.15;
                 this.size = Math.random() * 1.5;
-                this.opacity = Math.random() * 0.5 + 0.1;
+                this.opacity = Math.random() * 0.4 + 0.1; // 은은하게
             }
             
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
                 
-                // 화면 밖으로 나가면 반대편으로 이동
+                // 화면 경계 순환
                 if (this.x < 0) this.x = width;
                 if (this.x > width) this.x = 0;
                 if (this.y < 0) this.y = height;
@@ -489,7 +561,7 @@
         initParticles();
         animate();
         
-        // 스크롤 부드럽게 이동
+        // --- 4. 부드러운 스크롤 ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -502,5 +574,3 @@
     </script>
 </body>
 </html>
-
-
