@@ -285,21 +285,24 @@
                 <!-- 궤도 아이콘 애니메이션 (SVG) -->
                 <div class="orbit-container">
                     <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                        <!-- 궤도 -->
+                        <!-- 원형 궤도 (배경) -->
                         <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                        
+                        <!-- 타원 궤도 (눈에 보이는 선) -->
                         <ellipse cx="60" cy="60" rx="55" ry="25" fill="none" stroke="rgba(96,165,250,0.3)" stroke-width="1.5" transform="rotate(-30 60 60)"/>
                         
                         <!-- 중심 행성 -->
                         <circle cx="60" cy="60" r="8" fill="#1e3a8a" stroke="#60a5fa" stroke-width="2" class="animate-pulse"/>
                         
-                        <!-- 궤도 도는 위성 -->
-                        <circle r="3" fill="white">
-                            <animateMotion 
-                                dur="6s" 
-                                repeatCount="indefinite"
-                                path="M60,60 m-55,0 a55,25 0 1,0 110,0 a55,25 0 1,0 -110,0"
-                                transform="rotate(-30 60 60)" />
-                        </circle>
+                        <!-- 궤도 도는 위성 (그룹으로 묶어서 회전 적용) -->
+                        <g transform="rotate(-30 60 60)">
+                            <circle r="3" fill="white">
+                                <animateMotion 
+                                    dur="6s" 
+                                    repeatCount="indefinite"
+                                    path="M60,60 m-55,0 a55,25 0 1,0 110,0 a55,25 0 1,0 -110,0" />
+                            </circle>
+                        </g>
                     </svg>
                 </div>
                 
@@ -407,9 +410,9 @@
                 </h2>
                 
                 <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-gray-400">
-                    <a href="mailto:wlroehdejddjfl@naver.com" class="flex items-center hover:text-white transition group py-2">
+                    <a href="mailto:wlroehdejdjfl@naver.com" class="flex items-center hover:text-white transition group py-2">
                         <i data-lucide="mail" class="w-5 h-5 mr-3 group-hover:text-accent transition-colors"></i>
-                        <span class="border-b border-transparent group-hover:border-white transition-colors">wlroehdejddjfl@naver.com</span>
+                        <span class="border-b border-transparent group-hover:border-white transition-colors">wlroehdejdjfl@naver.com</span>
                     </a>
                     <a href="https://www.instagram.com/jxod_.x/" target="_blank" class="flex items-center hover:text-white transition group py-2">
                         <i data-lucide="instagram" class="w-5 h-5 mr-3 group-hover:text-pink-500 transition-colors"></i>
